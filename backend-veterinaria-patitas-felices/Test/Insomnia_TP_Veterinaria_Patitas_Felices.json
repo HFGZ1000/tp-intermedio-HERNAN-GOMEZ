@@ -1,0 +1,135 @@
+{
+  "_type": "export",
+  "__export_format": 4,
+  "__export_date": "2026-01-29T00:00:00.000Z",
+  "__export_source": "chatgpt",
+  "resources": [
+    {
+      "_id": "wrk_22c745abf2af",
+      "name": "TP Backend \u2013 Veterinaria Patitas Felices",
+      "scope": "collection",
+      "_type": "workspace"
+    },
+    {
+      "_id": "env_c541807688e7",
+      "parentId": "wrk_22c745abf2af",
+      "name": "Base Environment",
+      "data": {
+        "BASE_URL": "http://localhost:3000",
+        "TOKEN_USER": "",
+        "TOKEN_ADMIN": ""
+      },
+      "_type": "environment"
+    },
+    {
+      "_id": "req_3592f611e830",
+      "parentId": "wrk_22c745abf2af",
+      "name": "Auth - Login USER",
+      "method": "POST",
+      "url": "{{ BASE_URL }}/auth/login",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"email\": \"user@test.com\",\n  \"password\": \"1234\"\n}"
+      },
+      "_type": "request"
+    },
+    {
+      "_id": "req_eb7ebcd4990d",
+      "parentId": "wrk_22c745abf2af",
+      "name": "Auth - Login ADMIN",
+      "method": "POST",
+      "url": "{{ BASE_URL }}/auth/login",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"email\": \"admin@test.com\",\n  \"password\": \"admin123\"\n}"
+      },
+      "_type": "request"
+    },
+    {
+      "_id": "req_d0d96869aea3",
+      "parentId": "wrk_22c745abf2af",
+      "name": "Mascotas - Listar (USER o ADMIN)",
+      "method": "GET",
+      "url": "{{ BASE_URL }}/mascotas",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ TOKEN_USER }}"
+        }
+      ],
+      "body": {},
+      "_type": "request"
+    },
+    {
+      "_id": "req_d091b2533a88",
+      "parentId": "wrk_22c745abf2af",
+      "name": "Mascotas - Crear (ADMIN)",
+      "method": "POST",
+      "url": "{{ BASE_URL }}/mascotas",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ TOKEN_ADMIN }}"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"nombre\": \"Luna\",\n  \"especie\": \"Gato\",\n  \"fecha_nacimiento\": \"2021-03-15\",\n  \"id_dueno\": 1\n}"
+      },
+      "_type": "request"
+    },
+    {
+      "_id": "req_040cb22ffd09",
+      "parentId": "wrk_22c745abf2af",
+      "name": "Mascotas - Actualizar (ADMIN)",
+      "method": "PUT",
+      "url": "{{ BASE_URL }}/mascotas/1",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ TOKEN_ADMIN }}"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"nombre\": \"Luna Actualizada\",\n  \"especie\": \"Gato\",\n  \"fecha_nacimiento\": \"2021-03-15\",\n  \"id_dueno\": 1\n}"
+      },
+      "_type": "request"
+    },
+    {
+      "_id": "req_9ea795dc83a4",
+      "parentId": "wrk_22c745abf2af",
+      "name": "Mascotas - Eliminar (ADMIN)",
+      "method": "DELETE",
+      "url": "{{ BASE_URL }}/mascotas/1",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ TOKEN_ADMIN }}"
+        }
+      ],
+      "body": {},
+      "_type": "request"
+    }
+  ]
+}
