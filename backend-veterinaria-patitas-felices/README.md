@@ -1,178 +1,123 @@
-# Backend Veterinaria Patitas Felices
+🐾 TRABAJO PRÁCTICO FINAL
+Backend – Veterinaria Patitas Felices
 
-Backend desarrollado en Node.js + Express + TypeScript + MySQL  
-como Trabajo Práctico Intermedio.
+Backend desarrollado en Node.js + Express + TypeScript + MySQL
 
-## Descripción
+📌 Descripción
 
-El proyecto implementa una **API REST** con autenticación, autorización por roles y un CRUD real sobre una entidad del dominio veterinario.
+Sistema de gestión para la veterinaria “Patitas Felices” que permite administrar:
 
-## Tecnologías utilizadas
+👤 Dueños
 
-El sistema permite:
+🐾 Mascotas
 
-- Autenticación de usuarios mediante **JWT**
-- Autorización por roles (**user** y **admin**)
-- Registro de usuarios
-- Acceso protegido a endpoints
-- CRUD completo de la entidad **mascotas**
-- Persistencia en base de datos **MySQL**
-- Respeto por la **integridad referencial** del modelo de datos
+📂 Historial clínico (relación en base de datos)
 
-El backend queda preparado para ser consumido por un frontend en una etapa posterior.
+🔐 Usuarios con roles (user, admin)
 
----
+Incluye autenticación JWT, autorización por roles, validaciones con express-validator e integración con un frontend mínimo en HTML/CSS/JS.
 
-## Estructura del proyecto
+🏗️ Arquitectura
+
+El backend implementa arquitectura MVC:
 
 src/
-├─ config/
-│ └─ db.ts
-│ # Configuración y pool de conexión a MySQL
-│
-├─ controllers/
-│ ├─ auth.controller.ts
-│ │ # Controlador de login y registro
-│ └─ mascota.controller.ts
-│ # Controlador del CRUD de mascotas
-│
-├─ middlewares/
-│ ├─ auth.middleware.ts
-│ │ # Valida el JWT y autentica al usuario
-│ └─ role.middleware.ts
-│ # Verifica roles (user / admin)
-│
-├─ models/
-│ ├─ user.model.ts
-│ │ # Acceso a datos de usuarios y roles
-│ │ # Utilizado en el proceso de login y autorización
-│ │
-│ ├─ auth.model.ts
-│ │ # Acceso a datos para registro y asignación de roles
-│ │
-│ └─ mascota.model.ts
-│ # CRUD SQL real de la entidad mascotas
-│
-├─ routes/
-│ ├─ auth.routes.ts
-│ │ # Rutas de autenticación (login / register)
-│ └─ mascota.routes.ts
-│ # Rutas del CRUD de mascotas
-│
-│
-├─ services/
-│ ├─ auth.service.ts
-│ │ # Lógica de login y generación de JWT
-│ ├─ register.service.ts
-│ │ # Lógica de registro de usuarios
-│ └─ mascota.service.ts
-│ # Lógica de negocio del CRUD de mascotas
-│
-├─ app.ts
-│ # Configuración de Express, middlewares y rutas
-│
-└─ server.ts # Punto de entrada del servidor
+├── routes/
+├── controllers/
+├── services/
+├── models/
+├── middlewares/
+├── types/
+└── config/
 
-## Compilar y probar
+📌 Tecnologías utilizadas
 
+- Node.js
+- Express
+- TypeScript
+- MySQL
+- JWT (jsonwebtoken)
+- bcrypt
+- mysql2
+- dotenv
+- express-validator
+- HTML / CSS / JavaScript (Frontend)
+
+⚙️ Instalación y ejecución
+
+npm install
 npm run build
 npm start
 
-\*No se utiliza ts-node ni nodemon
+No se utiliza ts-node ni nodemon.
+El proyecto corre sobre la carpeta dist compilada.
 
-## Autenticación y Autorización
+🔐 Variables de entorno
 
-La API utiliza JWT para autenticación y control de acceso por roles.
+Debe existir un archivo .env con:
 
-### Login
+PORT=3000
+JWT_SECRET=clave_secreta
+JWT_EXPIRES_IN=1h
 
+DB_HOST=localhost
+DB_USER=root
+DB_PASSWORD=tu_password
+DB_NAME=veterinaria_patitas_felices
+
+Se incluye .env.example.
+
+🔐 Autenticación y Autorización
+
+La API utiliza JWT para autenticación y control por roles.
+
+Roles disponibles
+
+user
+
+admin
+
+Header requerido
+Authorization: Bearer <TOKEN>
+
+🔑 Login
 POST /auth/login
 
-### Endpoints protegidos
-
-- GET /protected/user → roles: user, admin
-- GET /protected/admin → rol: admin
-
-### Header requerido
-
-Token User:
-
-Authorization: Bearer <"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZF91c2VyIjoyLCJlbWFpbCI6InVzZXJAdGVzdC5jb20iLCJyb2xlcyI6WyJ1c2VyIl0sImlhdCI6MTc2OTYyMTExNSwiZXhwIjoxNzY5NjI0NzE1fQ.VmACbPobMUgSxhQVzr8jYPhcwphRVSC-g7PW5N2YQio">
-
-Token Admin:
-
-Authorization: Bearer <"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZF91c2VyIjoxLCJlbWFpbCI6ImFkbWluQHRlc3QuY29tIiwicm9sZXMiOlsiYWRtaW4iXSwiaWF0IjoxNzY5NjIwNzg4LCJleHAiOjE3Njk2MjQzODh9.uXxRWLttf66QZaCIChxWhf3H28cM8eL7IO8tNW7qgWo">
-
-### Pruebas con curl
-
-### Login (obtener token USER)
-
+Usuario
 curl -X POST http://localhost:3000/auth/login \
  -H "Content-Type: application/json" \
- -d "{\"email\":\"user@test.com\",\"password\":\"1234\"}"
+ -d '{"email":"user@test.com","password":"123456"}'
 
-### Login (obtener token ADMIN)
-
+Administrador
 curl -X POST http://localhost:3000/auth/login \
  -H "Content-Type: application/json" \
- -d "{\"email\":\"admin@test.com\",\"password\":\"admin123\"}"
+ -d '{"email":"admin@test.com","password":"123456"}'
 
-## Acceso USER (con token)
-
-curl http://localhost:3000/protected/user \
- -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZF91c2VyIjoyLCJlbWFpbCI6InVzZXJAdGVzdC5jb20iLCJyb2xlcyI6WyJ1c2VyIl0sImlhdCI6MTc2OTYxMzc3NiwiZXhwIjoxNzY5NjE3Mzc2fQ.18z0kgqRdk3uz2_K5ikHhztupdHFUmvnTjvMmPpii0o"
-
-Respuesta : {"message":"Acceso USER permitido"}
-
-## Acceso ADMIN con usuario común (debe fallar)
-
-curl http://localhost:3000/protected/admin \
- -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZF91c2VyIjoxLCJlbWFpbCI6ImFkbWluQHRlc3QuY29tIiwicm9sZXMiOlsiYWRtaW4iXSwiaWF0IjoxNzY5NjIwNzg4LCJleHAiOjE3Njk2MjQzODh9.uXxRWLttf66QZaCIChxWhf3H28cM8eL7IO8tNW7qgWo"
-
-Respuesta : { "message": "Acceso denegado" }
-
-## Sin token (debe fallar)
-
-curl http://localhost:3000/protected/user
-
-Respuesta :{ "message": "Token requerido" }
-
-### Registro de usuarios
-
+📝 Registro
 POST /auth/register
 
-Crea un usuario con rol `user` por defecto.
+Incluye validaciones con express-validator:
 
-{
-"email": "nuevo@test.com",
-"password": "1234"
-}
+Email obligatorio y válido
 
-## Registrar Usuario (User)
+Password mínimo 6 caracteres
 
 curl -X POST http://localhost:3000/auth/register \
  -H "Content-Type: application/json" \
- -d "{\"email\":\"nuevo@user.com\",\"password\":\"1234\"}"
+ -d '{"email":"nuevo@user.com","password":"123456"}'
 
-Respuesta :{ "message": "Usuario registrado correctamente" }
+🔒 Reglas de acceso por rol
 
-## Registro duplicado
+GET /mascotas user, admin
+GET /mascotas/:id user, admin
+POST /mascotas admin
+PUT /mascotas/:id admin
+DELETE /mascotas/:id admin
+GET /duenos user, admin
 
-curl -X POST http://localhost:3000/auth/register \
- -H "Content-Type: application/json" \
- -d "{\"email\":\"nuevo@user.com\",\"password\":\"1234\"}"
+🐶 Mascotas
 
-Respuesta :{"message":"El email ya está registrado"}
-
-## Reglas de acceso:
-
-GET → user, admin
-
-POST / PUT / DELETE → admin
-
-### CRUD Mascotas
-
-Campos:
+# Campos
 
 - id_mascota
 - nombre
@@ -180,94 +125,131 @@ Campos:
 - fecha_nacimiento
 - id_dueno
 
-Accesos:
+Validaciones implementadas
 
-- GET /mascotas → user, admin
-- GET /mascotas/:id → user, admin
-- POST /mascotas → admin
-- PUT /mascotas/:id → admin
-- DELETE /mascotas/:id → admin
+nombre obligatorio
 
-## Listar (user/admin)
+especie obligatoria
 
-curl http://localhost:3000/mascotas \
- -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZF91c2VyIjoyLCJlbWFpbCI6InVzZXJAdGVzdC5jb20iLCJyb2xlcyI6WyJ1c2VyIl0sImlhdCI6MTc2OTYyMTQ2NSwiZXhwIjoxNzY5NjI1MDY1fQ.MIen930oZtt0QhCWmSqBSSA3NxYtQsiLbjLLFTcFXq8"
+fecha en formato YYYY-MM-DD
 
-Respuesta :[{"id_mascota":1,"nombre":"Firulais","especie":"Perro","fecha_nacimiento":"201
-8-05-01T03:00:00.000Z","id_dueno":1},{"id_mascota":2,"nombre":"Miau","especie":"Gato","fecha_nacimiento":"2020-08-15T03:00:00.000Z","id_dueno":2}]
+id_dueno numérico
 
-## Listar x Id (user/admin)
+📋 GET /mascotas
 
-curl http://localhost:3000/mascotas/1 \
- -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZF91c2VyIjoyLCJlbWFpbCI6InVzZXJAdGVzdC5jb20iLCJyb2xlcyI6WyJ1c2VyIl0sImlhdCI6MTc2OTYyMTQ2NSwiZXhwIjoxNzY5NjI1MDY1fQ.MIen930oZtt0QhCWmSqBSSA3NxYtQsiLbjLLFTcFXq8"
+Incluye JOIN con tabla duenos, devolviendo:
 
-Respuesta :{"id_mascota":1,"nombre":"Firulais","especie":"Perro","fecha_nacimiento":"2018
--05-01T03:00:00.000Z","id_dueno":1}
+dueno_nombre
 
-## Crear (admin)
+dueno_apellido
 
+Ejemplo:
+
+{
+"id_mascota": 1,
+"nombre": "Michi",
+"especie": "Gato",
+"fecha_nacimiento": "2021-03-15",
+"id_dueno": 1,
+"dueno_nombre": "Juan",
+"dueno_apellido": "Pérez"
+}
+
+➕ Crear Mascota (admin)
 curl -X POST http://localhost:3000/mascotas \
- -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZF91c2VyIjoxLCJlbWFpbCI6ImFkbWluQHRlc3QuY29tIiwicm9sZXMiOlsiYWRtaW4iXSwiaWF0IjoxNzY5NjIwNzg4LCJleHAiOjE3Njk2MjQzODh9.uXxRWLttf66QZaCIChxWhf3H28cM8eL7IO8tNW7qgWo" \
+ -H "Authorization: Bearer <TOKEN_ADMIN>" \
  -H "Content-Type: application/json" \
  -d '{"nombre":"Luna","especie":"Perro","fecha_nacimiento":"2021-03-15","id_dueno":1}'
 
-Respuesta :{"nombre":"Luna","especie":"Perro","fecha_nacimiento":"2021-03-15","id_dueno":1}';0fda9aa7-288b-43c8-b1eb-ae24bc8c4c2f{"id_mascota":3}
-
-## Actualizar (admin)
-
-curl -X PUT http://localhost:3000/mascotas/1 \
- -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZF91c2VyIjoxLCJlbWFpbCI6ImFkbWluQHRlc3QuY29tIiwicm9sZXMiOlsiYWRtaW4iXSwiaWF0IjoxNzY5NjIwNzg4LCJleHAiOjE3Njk2MjQzODh9.uXxRWLttf66QZaCIChxWhf3H28cM8eL7IO8tNW7qgWo" \
- -H "Content-Type: application/json" \
- -d '{"nombre":"Luna","especie":"Perro","fecha_nacimiento":"2021-03-15","id_dueno":1}'
-
-Respuesta :{"nombre":"Luna","especie":"Perro","fecha_nacimiento":"2021-03-15","id_dueno":1}';0fda9aa7-288b-43c8-b1eb-ae24bc8c4c2f{"message":"Mascota actualizada"}
-
-## Eliminar (admin)
-
+❌ Eliminar Mascota (admin)
 curl -X DELETE http://localhost:3000/mascotas/4 \
- -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZF91c2VyIjoxLCJlbWFpbCI6ImFkbWluQHRlc3QuY29tIiwicm9sZXMiOlsiYWRtaW4iXSwiaWF0IjoxNzY5NjIwNzg4LCJleHAiOjE3Njk2MjQzODh9.uXxRWLttf66QZaCIChxWhf3H28cM8eL7IO8tNW7qgWo"
+ -H "Authorization: Bearer <TOKEN_ADMIN>"
 
-Respuesta : {"message":"Mascota eliminada"}
+Respuesta:
 
-### Eliminación de mascotas
+{ "message": "Mascota eliminada" }
+
+👤 Dueños
+
+# Campos
+
+- id_dueno
+- nombre
+- apellido
+- telefono
+- direccion
+
+GET /duenos
+
+Utilizado para poblar el <select> del modal en el frontend.
+
+curl http://localhost:3000/duenos \
+ -H "Authorization: Bearer <TOKEN>"
+
+🖥️ Frontend (HTML + CSS + JS)
+
+Login / Register
+
+Tabla dinámica de mascotas con nombre y apellido del dueño
+
+Modal para crear / editar mascota
+
+CRUD habilitado solo para admin
+
+Integración real con el backend mediante fetch
+
+📜 Reglas de negocio
+
+# Crear mascota
+
+No puede existir una mascota sin dueño (FK obligatoria).
+
+# Eliminar mascota
 
 No se permite eliminar una mascota que tenga historial clínico asociado.
-Esto se debe a restricciones de integridad referencial definidas en la base de datos.
 
-En ese caso, la API devuelve:
+La API devuelve:
 
 {
 "message": "No se puede eliminar la mascota porque tiene historial clínico"
 }
 
-## Pruebas
+Esto se debe a restricciones de integridad referencial en MySQL.
 
-Todas las pruebas se realizaron con curl e Insomnia
+🧪 Pruebas
 
-### Configuración del entorno
+Las pruebas se realizaron con:
 
-En Insomnia se definieron las siguientes variables de entorno:
+curl
 
-- `BASE_URL`: URL base del backend (http://localhost:3000)
-- `TOKEN_USER`: Token JWT obtenido al autenticar un usuario con rol `user`
-- `TOKEN_ADMIN`: Token JWT obtenido al autenticar un usuario con rol `admin`
+Insomnia
 
-Los tokens se obtienen ejecutando los endpoints de login y luego se reutilizan automáticamente en las requests protegidas.
+Se incluyen capturas y colección en carpeta /test.
 
-Se validaron:
-Auth – Login USER
-Auth – Login ADMIN
-Listar mascotas (USER)
-Crear mascota (ADMIN)
-Actualizar mascota (ADMIN)
-Eliminar mascota (ADMIN)
+Endpoints validados:
 
-## Se adjuntan capturas en la carpeta Test.
+Login USER
+Login ADMIN
+Register USER
+Listar Dueños
+Listar Mascotas
+Crear Mascota
+Actualizar Mascota
+Eliminar Mascota
 
-```
+✅ Resumen final del proyecto
 
-```
-
-```
-
-```
+✔ Arquitectura MVC
+✔ Node.js & Express
+✔ TypeScript
+✔ DTOS
+✔ JWT
+✔ Roles
+✔ bcrypt
+✔ express-validator
+✔ CRUD funcional
+✔ JOIN Mascotas + Dueños
+✔ Integración frontend-backend
+✔ Manejo centralizado de errores
+✔ Integridad referencial en base de datos
+✔ Variables de entorno con archivo .env

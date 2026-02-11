@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Nuestros amigos - Patitas Felices</title>
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <!-- FONDO -->
+    <div class="bg">
+      <img src="img/img2.png" alt="background" />
+    </div>
+
+    <div class="container">
+      <!-- TOP BAR -->
+      <div class="topbar">
+        <h1>🐾 Nuestros Amigos</h1>
+
+        <div class="actions">
+          <button id="btnNueva" class="btn primary" style="display: none">
+            ➕ Nueva Mascota
+          </button>
+
+          <button id="btnLogout" class="btn danger">⎋ Cerrar Sesión</button>
+        </div>
+      </div>
+
+      <!-- TABLA -->
+      <table id="tablaMascotas">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Especie</th>
+            <th>Fecha Nacimiento</th>
+            <th>Dueño</th>
+            <th id="accionesHeader" style="display: none">Acciones</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <!-- MODAL -->
+    <div id="modal" class="modal hidden">
+      <div class="modal-content">
+        <h2 id="modalTitle">Nueva Mascota</h2>
+
+        <input type="text" id="mNombre" placeholder="Nombre" />
+        <input type="text" id="mEspecie" placeholder="Especie" />
+        <input type="date" id="mFecha" />
+        <select id="mDueno"></select>
+
+        <div class="modal-buttons">
+          <button id="btnGuardar">Guardar</button>
+          <button id="btnCancelar">Cancelar</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="js/mascotas.js"></script>
+  </body>
+</html>

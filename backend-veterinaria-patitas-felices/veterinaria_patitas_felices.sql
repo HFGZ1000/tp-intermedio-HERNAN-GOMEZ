@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: mysql:3306
--- Tiempo de generación: 03-02-2026 a las 22:17:46
+-- Tiempo de generación: 11-02-2026 a las 14:18:33
 -- Versión del servidor: 5.7.44
 -- Versión de PHP: 8.3.26
 
@@ -42,7 +42,10 @@ CREATE TABLE `duenos` (
 INSERT INTO `duenos` (`id_dueno`, `nombre`, `apellido`, `telefono`, `direccion`) VALUES
 (1, 'Juan', 'Pérez', '123456789', 'Calle Falsa 123'),
 (2, 'Ana', 'Gómez', '987654321', 'Avenida Siempre Viva 742'),
-(3, 'Luis', 'Martínez', '456789123', 'Nueva Calle 123');
+(3, 'Luis', 'Martínez', '456789123', 'Nueva Calle 123'),
+(4, 'Carlos', 'Fernández', '1134567890', 'Av. Corrientes 1234'),
+(5, 'María', 'López', '1145678901', 'Calle San Martín 456'),
+(6, 'Sofía', 'Ramírez', '1156789012', 'Av. Belgrano 789');
 
 -- --------------------------------------------------------
 
@@ -135,7 +138,8 @@ INSERT INTO `users` (`id_user`, `email`, `password`, `activo`, `created_at`) VAL
 (1, 'admin@test.com', '$2b$10$zWfg5QO.sBntTu8LMOe1oOqQRH9Ug2S2eqIIhDrwPn7FcFry9/kNO', 1, '2026-01-28 13:34:56'),
 (2, 'user@test.com', '$2b$10$zWfg5QO.sBntTu8LMOe1oOqQRH9Ug2S2eqIIhDrwPn7FcFry9/kNO', 1, '2026-01-28 14:51:39'),
 (3, 'nuevo@test.com', '$2b$10$zWfg5QO.sBntTu8LMOe1oOqQRH9Ug2S2eqIIhDrwPn7FcFry9/kNO', 1, '2026-01-28 16:35:58'),
-(6, 'nuevo2@test.com', '$2b$10$zWfg5QO.sBntTu8LMOe1oOqQRH9Ug2S2eqIIhDrwPn7FcFry9/kNO', 1, '2026-02-03 13:13:49');
+(6, 'nuevo2@test.com', '$2b$10$zWfg5QO.sBntTu8LMOe1oOqQRH9Ug2S2eqIIhDrwPn7FcFry9/kNO', 1, '2026-02-03 13:13:49'),
+(7, 'nuevo3@test.com', '$2b$10$0alTrQaWqN3odpsDdSpTkOuLOt/i9YL/KlvMprnpU2BApyN1xDNYy', 1, '2026-02-06 14:19:32');
 
 -- --------------------------------------------------------
 
@@ -156,6 +160,7 @@ INSERT INTO `user_roles` (`id_user`, `id_role`) VALUES
 (2, 1),
 (3, 1),
 (6, 1),
+(7, 1),
 (1, 2);
 
 -- --------------------------------------------------------
@@ -241,7 +246,7 @@ ALTER TABLE `veterinarios`
 -- AUTO_INCREMENT de la tabla `duenos`
 --
 ALTER TABLE `duenos`
-  MODIFY `id_dueno` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_dueno` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `historiales_clinicos`
@@ -265,7 +270,7 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
-  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `veterinarios`

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Veterinaria Patitas Felices</title>
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <div class="bg">
+      <img src="img/img2.png" alt="background" />
+    </div>
+    <div class="hero">
+      <div class="card">
+        <h1>🐾 Veterinaria Patitas Felices</h1>
+
+        <div class="tabs">
+          <button id="btnLogin" class="active">Login</button>
+          <button id="btnRegister">Register</button>
+        </div>
+
+        <form id="formAuth">
+          <input type="email" id="email" placeholder="Email" required />
+          <input
+            type="password"
+            id="password"
+            placeholder="Password"
+            required
+          />
+          <button type="submit" id="submitBtn">Ingresar</button>
+        </form>
+
+        <p id="message"></p>
+      </div>
+    </div>
+
+    <script src="js/auth.js"></script>
+  </body>
+</html>
